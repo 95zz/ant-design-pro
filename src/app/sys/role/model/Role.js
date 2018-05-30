@@ -41,7 +41,7 @@ export default modelExtend(pageModel, {
     *listRole({ payload }, { call, put }) {
       const response = yield call(list, payload);
       yield put({
-        type: 'querySuccess',
+        type: 'updateState',
         payload: {
           list: response.data.data,
           pagination: {

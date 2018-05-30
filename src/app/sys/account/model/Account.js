@@ -29,7 +29,7 @@ export default modelExtend(pageModel, {
     *fetchUser({ payload }, { call, put }) {
       const response = yield call(listUser, payload);
       yield put({
-        type: 'querySuccess',
+        type: 'updateState',
         payload: {
           list: response.data.data,
           pagination: {
@@ -92,7 +92,7 @@ export default modelExtend(pageModel, {
       const userData = yield call(listUser, payload);
       const treeData = yield call(listOrgByAttr, { status: '0001' });
       yield put({
-        type: 'querySuccess',
+        type: 'updateState',
         payload: {
           list: userData.data.data,
           pagination: {
