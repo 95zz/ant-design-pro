@@ -122,7 +122,7 @@ export default class BasicLayout extends React.Component {
     }
     return title;
   }
-  getBashRedirect = () => {
+  getBaseRedirect = () => {
     const { location, loading } = this.props;
     // 添加nprogress样式
     const href = location.pathname;
@@ -205,27 +205,7 @@ export default class BasicLayout extends React.Component {
       location,
       menus,
     } = this.props;
-
-    /**
-     * 根据菜单取得重定向地址.
-     */
-    const redirectData = [];
-    const getRedirect = item => {
-      if (item && item.children) {
-        if (item.children[0] && item.children[0].path) {
-          redirectData.push({
-            from: `${item.path}`,
-            to: `${item.children[0].path}`,
-          });
-          item.children.forEach(children => {
-            getRedirect(children);
-          });
-        }
-      }
-    };
-    menus.forEach(getRedirect);
-
-    const bashRedirect = this.getBashRedirect();
+    const bashRedirect = this.getBaseRedirect();
     const layout = (
       <Layout>
         <SiderMenu
@@ -276,7 +256,7 @@ export default class BasicLayout extends React.Component {
             </Switch>
             {/* pkaq pin icon*/}
             <BackTop visibilityHeight={10}>
-              <Popover content="Hi jack" trigger="hover" onClick={() => this.changeTheme()}>
+              <Popover content="Hi PKAQ" trigger="hover" onClick={() => this.changeTheme()}>
                 <img src={pkaq} alt="pkaq" style={{ height: 60, width: 60 }} />
               </Popover>
             </BackTop>
