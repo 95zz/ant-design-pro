@@ -72,7 +72,7 @@ enquireScreen(b => {
   isMobile = b;
 });
 @App
-@connect(({ theme, loading, global }) => ({
+@connect(({ theme, loading, global={} }) => ({
   loading,
   theme,
   currentUser: global.currentUser,
@@ -305,9 +305,3 @@ export default class BasicLayout extends React.Component {
   }
 }
 
-export default connect(({ user, global = {}, loading }) => ({
-  currentUser: user.currentUser,
-  collapsed: global.collapsed,
-  fetchingNotices: loading.effects['global/fetchNotices'],
-  notices: global.notices,
-}))(BasicLayout);
