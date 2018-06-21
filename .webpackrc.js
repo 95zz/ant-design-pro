@@ -10,13 +10,13 @@ export default {
       extraBabelPlugins: ['dva-hmr'],
     },
   },
-  proxy: {
-    "/api": {
-      "target": "http://localhost/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/api" : "" }
-    },
-  },
+  // proxy: {
+  //   "/api": {
+  //     "target": "http://localhost/",
+  //     "changeOrigin": true,
+  //     "pathRewrite": { "^/api" : "" }
+  //   },
+  // },
   alias: {
     core: path.resolve(__dirname, 'src/core'),
     components: path.resolve(__dirname, 'src/components/'),
