@@ -10,13 +10,18 @@ export default {
       extraBabelPlugins: ['dva-hmr'],
     },
   },
+  externals: {
+    '@antv/data-set': 'DataSet',
+    bizcharts: 'BizCharts',
+    rollbar: 'rollbar',
+  },
   // proxy: {
   //   "/api": {
   //     "target": "http://localhost/",
   //     "changeOrigin": true,
   //     "pathRewrite": { "^/api" : "" }
   //   },
-  // },
+  // }，
   alias: {
     core: path.resolve(__dirname, 'src/core'),
     components: path.resolve(__dirname, 'src/components/'),
@@ -26,6 +31,9 @@ export default {
   html: {
     template: './src/index.ejs',
   },
+  // lessLoaderOptions: {
+  //   javascriptEnabled: true,
+  // },
   disableDynamicImport: true,
   publicPath: '/',
   hash: true,
