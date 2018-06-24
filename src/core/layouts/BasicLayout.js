@@ -89,6 +89,7 @@ export default class BasicLayout extends React.Component {
   state = {
     isMobile,
   };
+
   getChildContext() {
     const { location, routerData, menus } = this.props;
     return {
@@ -96,6 +97,7 @@ export default class BasicLayout extends React.Component {
       breadcrumbNameMap: getBreadcrumbNameMap(menus, routerData),
     };
   }
+
   componentDidMount() {
     this.enquireHandler = enquireScreen(mobile => {
       this.setState({
@@ -103,9 +105,11 @@ export default class BasicLayout extends React.Component {
       });
     });
   }
+
   componentWillUnmount() {
     unenquireScreen(this.enquireHandler);
   }
+
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
@@ -122,6 +126,7 @@ export default class BasicLayout extends React.Component {
     }
     return title;
   }
+
   getBaseRedirect = () => {
     const { location, loading } = this.props;
     // 添加nprogress样式
@@ -152,12 +157,14 @@ export default class BasicLayout extends React.Component {
     }
     return redirect;
   };
+
   handleMenuCollapse = collapsed => {
     this.props.dispatch({
       type: 'global/changeLayoutCollapsed',
       payload: collapsed,
     });
   };
+
   handleNoticeClear = type => {
     message.success(`清空了${type}`);
     this.props.dispatch({
@@ -165,6 +172,7 @@ export default class BasicLayout extends React.Component {
       payload: type,
     });
   };
+
   handleMenuClick = ({ key }) => {
     if (key === 'triggerError') {
       this.props.dispatch(routerRedux.push('/exception/trigger'));
@@ -176,6 +184,7 @@ export default class BasicLayout extends React.Component {
       });
     }
   };
+
   handleNoticeVisibleChange = visible => {
     if (visible) {
       this.props.dispatch({

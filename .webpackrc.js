@@ -31,9 +31,9 @@ export default {
   html: {
     template: './src/index.ejs',
   },
-  // lessLoaderOptions: {
-  //   javascriptEnabled: true,
-  // },
+  //lessLoaderOptions: {
+  //  javascriptEnabled: true,
+  //},
   disableDynamicImport: true,
   publicPath: '/',
   hash: true,
