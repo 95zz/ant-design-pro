@@ -63,7 +63,8 @@ export default class SiderMenu extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.pathname !== this.props.location.pathname) {
+    const { location } = this.props;
+    if (nextProps.location.pathname !== location.pathname) {
       this.setState({
         openKeys: this.getDefaultCollapsedSubMenus(nextProps),
       });
@@ -101,15 +102,16 @@ export default class SiderMenu extends PureComponent {
         </a>
       );
     }
+    const { location, isMobile, onCollapse } = this.props;
     return (
       <Link
         to={itemPath}
         target={target}
-        replace={itemPath === this.props.location.pathname}
+        replace={itemPath === location.pathname}
         onClick={
-          this.props.isMobile
+          isMobile
             ? () => {
-                this.props.onCollapse(true);
+                onCollapse(true);
               }
             : undefined
         }
@@ -190,8 +192,9 @@ export default class SiderMenu extends PureComponent {
 
   // permission to check
   checkPermissionItem = (authority, ItemDom) => {
-    if (this.props.Authorized && this.props.Authorized.check) {
-      const { check } = this.props.Authorized;
+    const { Authorized } = this.props;
+    if (Authorized && Authorized.check) {
+      const { check } = Authorized;
       return check(authority, ItemDom);
     }
     return ItemDom;

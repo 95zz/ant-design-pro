@@ -104,6 +104,10 @@ export default class BasicLayout extends React.Component {
         isMobile: mobile,
       });
     });
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'user/fetchCurrent',
+    });
   }
 
   componentWillUnmount() {
@@ -159,7 +163,8 @@ export default class BasicLayout extends React.Component {
   };
 
   handleMenuCollapse = collapsed => {
-    this.props.dispatch({
+    const { dispatch } = this.props;
+    dispatch({
       type: 'global/changeLayoutCollapsed',
       payload: collapsed,
     });
@@ -167,27 +172,30 @@ export default class BasicLayout extends React.Component {
 
   handleNoticeClear = type => {
     message.success(`清空了${type}`);
-    this.props.dispatch({
+    const { dispatch } = this.props;
+    dispatch({
       type: 'global/clearNotices',
       payload: type,
     });
   };
 
   handleMenuClick = ({ key }) => {
+    const { dispatch } = this.props;
     if (key === 'triggerError') {
-      this.props.dispatch(routerRedux.push('/exception/trigger'));
+      dispatch(routerRedux.push('/exception/trigger'));
       return;
     }
     if (key === 'logout') {
-      this.props.dispatch({
+      dispatch({
         type: 'login/logout',
       });
     }
   };
 
   handleNoticeVisibleChange = visible => {
+    const { dispatch } = this.props;
     if (visible) {
-      this.props.dispatch({
+      dispatch({
         type: 'global/fetchNotices',
       });
     }
@@ -214,6 +222,7 @@ export default class BasicLayout extends React.Component {
       location,
       menus,
     } = this.props;
+    const { isMobile: mb } = this.state;
     const bashRedirect = this.getBaseRedirect();
     /**
      * 根据菜单取得重定向地址.
@@ -244,7 +253,7 @@ export default class BasicLayout extends React.Component {
           menuData={menus}
           collapsed={collapsed}
           location={location}
-          isMobile={this.state.isMobile}
+          isMobile={mb}
           onCollapse={this.handleMenuCollapse}
         />
         <Layout style={{ height: '100vh', overflow: 'hidden'}}>
@@ -255,7 +264,7 @@ export default class BasicLayout extends React.Component {
               fetchingNotices={fetchingNotices}
               notices={notices}
               collapsed={collapsed}
-              isMobile={this.state.isMobile}
+              isMobile={mb}
               onNoticeClear={this.handleNoticeClear}
               onCollapse={this.handleMenuCollapse}
               onMenuClick={this.handleMenuClick}
