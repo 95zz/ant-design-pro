@@ -4,6 +4,7 @@ import { LocaleProvider, Spin } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import dynamic from 'dva/dynamic';
 import Authorized from './core/utils/Authorized';
+import { getQueryPath } from './core/utils/utils';
 import styles from './index.less';
 import UserLayout from './core/layouts/UserLayout';
 import BasicLayout from './core/layouts/BasicLayout';
@@ -28,7 +29,9 @@ const RouterWrapper = ({ history, app }) => {
             path="/"
             render={props => <BasicLayout {...props} routerConfig={getConfig(app)} />}
             authority={['admin', 'user']}
-            redirectPath="/user/login"
+            redirectPath={getQueryPath('/user/login', {
+              redirect: window.location.href,
+            })}
           />
         </Switch>
       </ConnectedRouter>

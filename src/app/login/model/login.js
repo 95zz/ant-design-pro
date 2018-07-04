@@ -1,7 +1,9 @@
 import { routerRedux } from 'dva/router';
+import { stringify } from 'qs';
 import { login } from '../service/login';
 import { setAuthority } from 'core/utils/authority';
 import { reloadAuthorized } from 'core/utils/Authorized';
+import { getPageQuery } from 'core/utils/utils';
 import { getUserMenu } from 'core/service/global';
 import { moudleFormatter } from 'core/utils/DataHelper';
 import cookie from 'react-cookies';
@@ -16,6 +18,10 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(login, payload);
+      yield put({
+        type: 'changeLoginStatus',
+        payload: response,
+      });
       // Login successfully
       let errorMsg = '';
       if (response && response.success) {
@@ -69,10 +75,25 @@ export default {
         });
         localStorage.setItem('eva_user', JSON.stringify(response.data.user));
         reloadAuthorized();
-        yield put(routerRedux.push('/'));
+        const urlParams = new URL(window.location.href);
+        const params = getPageQuery();
+        let { redirect } = params;
+        if (redirect) {
+          const redirectUrlParams = new URL(redirect);
+          if (redirectUrlParams.origin === urlParams.origin) {
+            redirect = redirect.substr(urlParams.origin.length);
+            if (redirect.startsWith('/#')) {
+              redirect = redirect.substr(2);
+            }
+          } else {
+            window.location.href = redirect;
+            return;
+          }
+        }
+        yield put(routerRedux.replace(redirect || '/'));
       }
     },
-    *logout(_, { put, select }) {
+    *logout(_, { put }) {
       try {
         // 删除token
         cookie.remove('token');
@@ -90,9 +111,16 @@ export default {
             currentAuthority: 'guest',
           },
         });
-        reloadAuthorized();
-        yield put(routerRedux.push('/user/login'));
       }
+      reloadAuthorized();
+      yield put(
+        routerRedux.push({
+          pathname: '/user/login',
+          search: stringify({
+            redirect: window.location.href,
+          }),
+        })
+      );
     },
   },
 
@@ -103,14 +131,7 @@ export default {
         ...state,
         status: payload.status,
         type: payload.type,
-        errorMsg:  payload.errorMsg
       };
     },
-    updateState(state, { payload }) {
-      return {
-        ...state,
-        ...payload,
-      };
-    }
-  }
+  },
 };

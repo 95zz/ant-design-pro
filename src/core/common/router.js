@@ -3,18 +3,12 @@ import pathToRegexp from 'path-to-regexp';
 // 获取菜单路径对象
 function getFlatMenuData(menus) {
   let keys = {};
-
   menus.forEach(item => {
     if (item.children) {
-      keys[item.path] = {
-        ...item,
-      };
-
+      keys[item.path] = { ...item };
       keys = { ...keys, ...getFlatMenuData(item.children) };
     } else {
-      keys[item.path] = {
-        ...item,
-      };
+      keys[item.path] = { ...item };
     }
   });
   return keys;
@@ -22,7 +16,6 @@ function getFlatMenuData(menus) {
 // 获取路由配置
 export const getRouterData = (routerConfig, menus) => {
   const menuData = getFlatMenuData(menus);
-  //  返回附加了name和authority的routerData
 
   // Route configuration data
   // eg. {name,authority ...routerConfig }
@@ -46,6 +39,7 @@ export const getRouterData = (routerConfig, menus) => {
       ...router,
       name: router.name || menuItem.name,
       authority: router.authority || menuItem.authority,
+      hideInBreadcrumb: router.hideInBreadcrumb || menuItem.hideInBreadcrumb,
     };
     routerData[path] = router;
   });
