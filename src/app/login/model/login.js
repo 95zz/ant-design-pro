@@ -94,24 +94,15 @@ export default {
       }
     },
     *logout(_, { put }) {
-      try {
-        // 删除token
-        cookie.remove('token');
-        // get location pathname
-        const urlParams = new URL(window.location.href);
-        const pathname = yield select(state => state.routing.location.pathname);
-        // add the parameters in the url
-        urlParams.searchParams.set('redirect', pathname);
-        window.history.replaceState(null, 'login', urlParams.href);
-      } finally {
-        yield put({
-          type: 'changeLoginStatus',
-          payload: {
-            status: false,
-            currentAuthority: 'guest',
-          },
-        });
-      }
+      // 删除token
+      cookie.remove('token');
+      yield put({
+        type: 'changeLoginStatus',
+        payload: {
+          status: false,
+          currentAuthority: 'guest',
+        },
+      });
       reloadAuthorized();
       yield put(
         routerRedux.push({

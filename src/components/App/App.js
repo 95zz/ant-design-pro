@@ -5,7 +5,7 @@ import Loader from '../Loader';
 import { routerRedux } from 'dva/router';
 import { setAuthority } from 'core/utils/authority';
 import { reloadAuthorized } from 'core/utils/Authorized';
-import { getRouterData } from '../../core/common/router';
+import { getRouterData } from 'core/common/router';
 
 const App = WrappedComponent => {
   @connect(state => ({

@@ -1,22 +1,17 @@
 import React from 'react';
 import { routerRedux, Switch, Route } from 'dva/router';
-import { LocaleProvider, Spin } from 'antd';
+import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
-import dynamic from 'dva/dynamic';
 import Authorized from './core/utils/Authorized';
 import { getQueryPath } from './core/utils/utils';
-import styles from './index.less';
 import UserLayout from './core/layouts/UserLayout';
 import BasicLayout from './core/layouts/BasicLayout';
 import getConfig, { getUserNav } from './core/common/config';
 
 const { ConnectedRouter } = routerRedux;
 const { AuthorizedRoute } = Authorized;
-dynamic.setDefaultLoadingComponent(() => {
-  return <Spin size="large" className={styles.globalSpin} />;
-});
 
-const RouterWrapper = ({ history, app }) => {
+function RouterConfig({ history, app }) {
   return (
     <LocaleProvider locale={zhCN}>
       <ConnectedRouter history={history}>
@@ -37,6 +32,6 @@ const RouterWrapper = ({ history, app }) => {
       </ConnectedRouter>
     </LocaleProvider>
   );
-};
+}
 
-export default RouterWrapper;
+export default RouterConfig;

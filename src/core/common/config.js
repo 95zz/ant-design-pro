@@ -1,5 +1,7 @@
-import dynamic from 'dva/dynamic';
-import { createElement } from 'react';
+import { Spin } from 'antd';
+import Loadable from 'react-loadable';
+import React, { createElement } from 'react';
+
 // 判断model是否已存在
 const modelNotExisted = (app, model) =>
   // eslint-disable-next-line
@@ -8,35 +10,42 @@ const modelNotExisted = (app, model) =>
   });
 // model包装器
 const dynamicWrapper = (app, models, component) => {
+  // register models
+  models.forEach(model => {
+    if (modelNotExisted(app, model)) {
+      // eslint-disable-next-line
+      app.model(require(`../../app/${model}`).default);
+    }
+  });
   // () => require('module')
   // transformed by babel-plugin-dynamic-import-node-sync
   if (component.toString().indexOf('.then(') < 0) {
-    models.forEach(model => {
-      if (modelNotExisted(app, model)) {
-        // eslint-disable-next-line
-        app.model(require(`../../app/${model}`).default);
-      }
-    });
     return props => {
+      // if (!routerDataCache) {
+      //   routerDataCache = getRouterData(app);
+      // }
       return createElement(component().default, {
         ...props,
+        // routerData: routerDataCache,
       });
     };
   }
-  // () => import('module')
-  return dynamic({
-    app,
-    // 判断model是否存在 避免重复注册
-    models: () =>
-      models.filter(model => modelNotExisted(app, model)).map(m => import(`../../${m}.js`)),
-    component: () => {
+  return Loadable({
+    loader: () => {
+      // if (!routerDataCache) {
+      //   routerDataCache = getRouterData(app);
+      // }
       return component().then(raw => {
         const Component = raw.default || raw;
         return props =>
           createElement(Component, {
             ...props,
+            // routerData: routerDataCache,
           });
       });
+    },
+    loading: () => {
+      return <Spin size="large" className="global-spin" />;
     },
   });
 };

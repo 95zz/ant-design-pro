@@ -24,6 +24,7 @@ export default {
   // },
   alias: {
     core: path.resolve(__dirname, 'src/core'),
+    assets: path.resolve(__dirname, 'src/assets/'),
     components: path.resolve(__dirname, 'src/components/'),
   },
   ignoreMomentLocale: true,

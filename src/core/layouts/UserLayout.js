@@ -4,7 +4,7 @@ import DocumentTitle from 'react-document-title';
 import { Icon, BackTop } from 'antd';
 import GlobalFooter from 'components/GlobalFooter';
 import styles from './UserLayout.less';
-import logo from '../../assets/logo.svg';
+import logo from 'assets/logo.svg';
 import { getRoutes, getPageQuery, getQueryPath } from '../utils/utils';
 import * as AppInfo from '../../core/common/AppInfo';
 

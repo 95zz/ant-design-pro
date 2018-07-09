@@ -1,4 +1,5 @@
 import pathToRegexp from 'path-to-regexp';
+import React, { createElement } from 'react';
 
 // 获取菜单路径对象
 function getFlatMenuData(menus) {
