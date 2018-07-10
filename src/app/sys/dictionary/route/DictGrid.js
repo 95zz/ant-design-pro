@@ -26,7 +26,7 @@ export default class DictGrid extends PureComponent {
       type: 'dict/getDict',
       payload: {
         id: record.id,
-        operateType: 'typeView',
+        operateType: 'typeEdit',
       },
     });
   };
@@ -44,8 +44,9 @@ export default class DictGrid extends PureComponent {
       },
     });
   };
-  // 新增
+  // 新建分类
   handleAddClick = () => {
+    console.info("add type click");
     this.props.dispatch({
       type: 'dict/updateState',
       payload: {
@@ -90,7 +91,7 @@ export default class DictGrid extends PureComponent {
               <Card
                 actions={[
                   <Tooltip placement="bottom" title="新建分类">
-                    <Icon type="edit" onClick={e => this.handleAddClick()} />新建分类
+                    <Icon type="edit" onClick={e => this.handleAddClick()} />
                   </Tooltip>,
                   <div> </div>,
                 ]}

@@ -40,21 +40,10 @@ export default class DictDetail extends Component {
   };
   // 新增字典项
   handleAddClick = () => {
-    const { currentItem } = this.props;
-
     this.props.dispatch({
       type: 'dict/updateState',
       payload: {
         itemOperateType: 'itemCreate',
-      },
-    });
-  };
-  // 字典类目编辑
-  handleTypeEditClick = () => {
-    this.props.dispatch({
-      type: 'dict/updateState',
-      payload: {
-        operateType: 'typeEdit',
       },
     });
   };
@@ -158,18 +147,10 @@ export default class DictDetail extends Component {
     // 表单动态按钮
     const extraContent =
       'typeCreate' === operateType || !!currentItem.id ? (
-        'typeView' === operateType ? (
-          <Button type="danger" onClick={() => this.handleTypeEditClick()}>
-            编辑
-          </Button>
-        ) : (
           <Button type="primary" onClick={() => this.handleTypeSaveClick()}>
             保存
           </Button>
-        )
-      ) : (
-        ''
-      );
+      ) : ('');
 
     return (
       <div>
